@@ -1,35 +1,104 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
+import Editor from "./components/editor/Editor";
+import Preview from "./components/preview/Preview";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [formData, setFormData] = useState({
+    basicInfo: {
+      firstName: "",
+      lastName: "",
+      occupation: "",
+      summary: "",
+    },
+    contactInfo: {
+      email: "",
+      phoneNumber: "",
+      location: "",
+      website: "",
+    },
+    educationInfo: {
+      university: "",
+      course: "",
+      startingDate: "",
+      endingDate: "",
+      gpa: "",
+    },
+    experienceInfo: {
+      position: "",
+      company: "",
+      startingYear: "",
+      endingYear: "",
+      jobResponsibility: "",
+    },
+  });
 
+  const handleBasicInfoChanges = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      basicInfo: {
+        ...prevFormData.basicInfo,
+        [name]: value,
+      },
+    }));
+  };
+  const handleContactInfoChanges = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      contactInfo: {
+        ...prevFormData.contactInfo,
+        [name]: value,
+      },
+    }));
+  };
+  const handleEducationInfoChanges = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      educationInfo: {
+        ...prevFormData.educationInfo,
+        [name]: value,
+      },
+    }));
+  };
+  const handleExperienceInfoChanges = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      experienceInfo: {
+        ...prevFormData.experienceInfo,
+        [name]: value,
+      },
+    }));
+  };
+  const printPreview = () => {
+    window.print();
+  };
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="App">
+        <Editor
+          formData={formData}
+          handleBasicInfoChanges={handleBasicInfoChanges}
+          handleContactInfoChanges={handleContactInfoChanges}
+          handleEducationInfoChanges={handleEducationInfoChanges}
+          handleExperienceInfoChanges={handleExperienceInfoChanges}
+        ></Editor>
+        <Preview formData={formData}></Preview>
+        <div className="btn-container__preview">
+          <button
+            type="button"
+            className="btn__print-preview material-symbols-outlined"
+            onClick={printPreview}
+          >
+            print
+          </button>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
